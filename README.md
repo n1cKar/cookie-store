@@ -25,9 +25,6 @@ This is **only for demonstration and testing purposes**. Never use this approach
 
 [1](./app_pics/1.png)
 
-## Demo Link
-
-- Demo Link: [Cookie Store]() 
 
 ## 🛠️ Setup
 
