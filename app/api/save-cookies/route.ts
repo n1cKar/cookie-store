@@ -1,18 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// temporary in-memory store (resets on cold start)
-let lastCookiesDump = "";
+import { setLastCookiesDump } from "@/lib/cookieStore";
 
 export async function GET(req: NextRequest) {
   const cookies = req.cookies.getAll();
 
-  lastCookiesDump =
+  const cookieText =
     cookies.map((c) => `${c.name}=${c.value}`).join("\n") || "No cookies found";
 
-  return NextResponse.json({ success: true });
-}
+  setLastCookiesDump(cookieText);
 
-// helper for other routes to fetch latest dump
-export function getLastCookiesDump() {
-  return lastCookiesDump;
+  return NextResponse.json({ success: true });
 }

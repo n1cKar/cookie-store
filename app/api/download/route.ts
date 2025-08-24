@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getLastCookiesDump } from "../save-cookies/route";
+import { getLastCookiesDump } from "@/lib/cookieStore";
 
 export async function GET() {
   const data = getLastCookiesDump();
