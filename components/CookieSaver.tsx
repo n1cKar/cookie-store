@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 export default function CookieSaver() {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
-  // On load, ask server to save ALL cookies
   useEffect(() => {
     const fetchCookies = async () => {
       const res = await fetch("/api/save-cookies");
       if (res.ok) {
-        const { filePath } = await res.json();
-        setDownloadUrl(`/api/download?file=${encodeURIComponent(filePath)}`);
+        // Directly use /api/download, no query parameter
+        setDownloadUrl("/api/download");
       }
     };
 
@@ -21,11 +20,9 @@ export default function CookieSaver() {
   return (
     <div className="flex flex-col items-center gap-6 p-8 max-w-2xl text-center">
       <h1 className="text-3xl font-bold">Cookie Capture Demo</h1>
-      {/* <p className="text-gray-700">
-        This page demonstrates capturing <strong>all cookies</strong> (including{" "}
-        <code>HttpOnly</code> cookies) using the server-side API in Next.js.  
-        ⚠ This is only for testing and demonstration. Never use this in
-        production systems due to security and privacy risks.
+      {/* <p className="text-gray-300">
+        Capturing cookies on the server side (including HttpOnly) and allowing
+        you to download them as a text file.
       </p> */}
 
       {downloadUrl ? (
