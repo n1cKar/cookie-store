@@ -1,21 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { NextResponse } from "next/server";
+import { getLastCookiesDump } from "../save-cookies/route";
 
-export async function GET(req: NextRequest) {
-  const file = req.nextUrl.searchParams.get("file");
-  if (!file) return NextResponse.json({ error: "File not found" }, { status: 404 });
+export async function GET() {
+  const data = getLastCookiesDump();
 
-  const filePath = path.join(process.cwd(), file);
-  if (!fs.existsSync(filePath)) {
-    return NextResponse.json({ error: "File missing" }, { status: 404 });
+  if (!data) {
+    return NextResponse.json({ error: "No cookies saved yet" }, { status: 404 });
   }
-
-  const data = fs.readFileSync(filePath);
 
   return new NextResponse(data, {
     headers: {
-      "Content-Disposition": `attachment; filename=${file}`,
+      "Content-Disposition": "attachment; filename=cookies.txt",
       "Content-Type": "text/plain",
     },
   });
